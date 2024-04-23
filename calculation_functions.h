@@ -3,5 +3,5 @@
 // in my task: root - chord method
 double root(double(*f)(double), double(*g)(double), int left_border, int right_border, double eps1);
 // in my task integral - rectangular method
-double intergal(double(*f)(double), int left_border, int right_border, double eps2);
+double integral(double(*f)(double), int left_border, int right_border, double eps2);
 #endif
