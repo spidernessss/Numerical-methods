@@ -1,8 +1,4 @@
-#ifndef STDIO_H
-#define STDIO_H
 #include <stdio.h>
-#endif
-
 #ifndef ASCII_ART_C
 #define ASCII_ART_C 
 
