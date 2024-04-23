@@ -1,15 +1,5 @@
-#ifndef STDLIB_H
-#define STDLIB_H
 #include <stdlib.h>
-#endif
-
-#ifndef STDIO_H
-#define STDIO_H
 #include <stdio.h>
-#endif
-
-#ifndef CALCULATION_FUNCTIONS_C
-#define CALCULATION_FUNCTIONS_C
 //!!!!!!!!!!!!!!!!!!!!!!!!!
 //need stdlib.h for abs
 // in my task: root - chord method
@@ -58,13 +48,13 @@ double root(double(*f)(double), double(*g)(double), int a, int b, double eps1)
             root = x;
             break;
         default:
-            fprintf(stderr, "Error in delta calculation. The values of is_delta_positive: %d", is_delta_positive);
+            fprintf(stderr, "Error in delta calculation. The values of is_delta_positive: %d\n", is_delta_positive);
     }
      return root;   
 }
 // Rectangular method
 // having fixed number of rectangles where step is width and average is length
-double intergal(double(*f)(double), int a, int b, double eps2)
+double integral(double(*f)(double), int a, int b, double eps2)
 {
     int rectangles = 50000;
     double step = (f(b) - f(a)) / rectangles;
@@ -79,4 +69,3 @@ double intergal(double(*f)(double), int a, int b, double eps2)
     }
     return area;
 }
-#endif
