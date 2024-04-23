@@ -1,14 +1,24 @@
 FINAL = Mermaid
+
 COMPILER = gcc
-FLAGS = -std=c99 -c 
+ASSEMBLER = nasm
 
-SRC = $(wildcard *.c)
-OBJ = $(patsubst %.c, %.o, $(SRC))
+CFLAGS = -std=c99 -c -m32
+SFLAGS = -f elf32
+OFLAGS = -no-pie -z noexecstack
 
-$(FINAL) : $(OBJ)
-	$(COMPILER) $(OBJ) -o $(FINAL) -lm
+SRCC = $(wildcard *.c)
+SRCS = $(wildcard *.s)
+
+OBJC = $(patsubst %.c, %.o, $(SRCC))
+OBJS = $(patsubst %.s, %.o, $(SRCS))
+
+$(FINAL) : $(OBJC) $(OBJS)
+	$(COMPILER) $(OBJC) $(OBJS) $(OFLAGS) -o $(FINAL) -m32 -lm
 
 %.o : %.c
-	$(COMPILER) $(FLAGS) $< -o $@ 
+	$(COMPILER) $(CFLAGS) $< -o $@
+%.o : %.s
+	$(ASSEMBLER) $(SFLAGS) $< -o $@
 clean :
 	rm $(FINAL) *.o
