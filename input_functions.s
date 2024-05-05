@@ -1,14 +1,12 @@
-extern pow
 section .data
-     const1 dd 2
-     const3 dd 4
-     
+     const1 dq 2
+     const3 dq 3
+         
 section .text
 
 global function_1
 global function_2
 global function_3
-
 function_1:
     ; 2 ^ x + 1
     PUSH ebp
@@ -16,32 +14,26 @@ function_1:
     SUB esp, 8  
     FINIT
     FLD qword[ebp + 8]
-    FSTP dword[esp + 4]
-    MOV edx, dword[const1]
-    MOV dword[esp], edx
-    CALL pow
-    ADD esp, 8 
+    F2XM1
+    FLD qword[const1]
+    FADDP
     LEAVE
     RET   
 function_2:
    ; x^5
-   ; making 5 muls in order not to do pow
+   ; making fast multiplication
     PUSH ebp
     MOV ebp, esp
     SUB esp, 8  
     FINIT
     FLD qword[ebp + 8] ;pushing x to the stack
     FLD qword[ebp + 8] ; again to make multiplication
-    FLD qword[ebp + 8] ; again
-    FLD qword[ebp + 8] ; again
-    FLD qword[ebp + 8] ; again
-    FMULP 
-    FMULP
-    FMULP
-    FMULP  ; result in st0
-    ADD esp, 8 
+    FMUL ; result in st0
+    FMUL st0, st0  ; st0 * st0
+    FLD qword[ebp + 8]
+    FMULP ; in st0
     LEAVE
-    RET  
+    RET
 function_3:
     ; (1 - x) / 3
     PUSH ebp
@@ -51,8 +43,7 @@ function_3:
     FLDZ
     FLD qword[ebp + 8]
     FSUBP
-    FLD dword[const3]
+    FLD qword[const3]
     FDIVP
-    ADD esp, 8
     LEAVE 
     RET
