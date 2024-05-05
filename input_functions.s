@@ -1,6 +1,6 @@
 section .data
-     const1 dq 2
-     const3 dq 3
+     const1 dq 2.00
+     const3 dq 3.00
          
 section .text
 
@@ -47,3 +47,4 @@ function_3:
     FDIVP
     LEAVE 
     RET
+
