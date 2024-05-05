@@ -1,17 +1,34 @@
-#ifndef TEST_FUNCTION_C
-#define TEST_FUNCTION_C
+#include <stdio.h>
+#include <math.h>
 
-double test_func_11(double x)
+//Test set 1
+
+double function_1(double x)
 {
     return x + 1;
 }
-double test_func_12(double x)
+double function_2(double x)
 {
     return 1;
 }
-double test_func_13(double x)
+double function_3(double x)
+{
+    return pow(x, -1);
+}
+
+// Test set 2
+
+/*
+double function_1(double x)
+{
+    return pow(x, 8) + 5;
+}
+double function_2(double x)
+{
+    return pow(x, 2);
+}
+double function_3(double x)
 {
     return -x;
 }
-
-#endif
+*/
