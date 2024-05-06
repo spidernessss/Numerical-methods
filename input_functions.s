@@ -11,12 +11,24 @@ function_1:
     ; 2 ^ x + 1
     PUSH ebp
     MOV ebp, esp
-    SUB esp, 8  
+    SUB esp, 24
     FINIT
+    ; 2 ^ (x * log2(2))
     FLD qword[ebp + 8]
+    FLD qword[const1]
+    FYL2X ; in st0
+    ; FISUB FISTP
+    FIST dword[esp]
+    FLD1
+    FSCALE ; in st0
+    FSTP qword[esp + 8] ; 2 in integer power
+    FLD qword[ebp + 8]  
+    FISUB dword[esp]     ; st0 - frac
     F2XM1
     FLD qword[const1]
-    FADDP
+    FADD
+    FLD qword[esp + 8]
+    FMULP
     LEAVE
     RET   
 function_2:
@@ -47,4 +59,5 @@ function_3:
     FDIVP
     LEAVE 
     RET
+
 
