@@ -11,26 +11,35 @@ function_1:
     ; 2 ^ x + 1
     PUSH ebp
     MOV ebp, esp
-    SUB esp, 24
-    FINIT
-    ; 2 ^ (x * log2(2))
+    SUB esp, 8   ; Allocate 8 bytes for temporary storage on the stack
+
+    FINIT        ; Initialize the FPU
+
+    ; Calculate 2^x
+
+    ;GET THE INTEGER PART
+    FLD qword [ebp + 8]      ; Load x onto the FPU stack
+    FRNDINT                  ; Get the integer part of x in st1 
+    FLD1                     ; and one in st0
+    FSCALE                   ; ST(0) = ST(0) * 2ST(1) 
+
+    ;GET THE FRACTIONAL PART
     FLD qword[ebp + 8]
-    FLD qword[const1]
-    FYL2X ; in st0
-    ; FISUB FISTP
-    FIST dword[esp]
+    FLD st0                  ; Duplicate x
+    FRNDINT                  ; Integer part in st0
+    FSUBP st1, st0           ; ST(1) = ST(1) - ST(0) and pop integer part
+    F2XM1                    ; ST(0) = 2^ST(0) - 1
     FLD1
-    FSCALE ; in st0
-    FSTP qword[esp + 8] ; 2 in integer power
-    FLD qword[ebp + 8]  
-    FISUB dword[esp]     ; st0 - frac
-    F2XM1
-    FLD qword[const1]
-    FADD
-    FLD qword[esp + 8]
-    FMULP
+    FADDP                    ; get 2^x fractional 
+
+    ;COMBINE
+    FMULP                    ;ST(1) = ST(0) * ST(1) add pop st0
+    FLD1
+    FADDP                    ;ST(1) = ST(0) + ST(1) and pop 1
+
     LEAVE
-    RET   
+    RET
+  
 function_2:
    ; x^5
    ; making fast multiplication
@@ -52,7 +61,7 @@ function_3:
     MOV ebp, esp
     SUB esp, 8  ; in order to make an aligned stack frame
     FINIT
-    FLDZ
+    FLD1
     FLD qword[ebp + 8]
     FSUBP
     FLD qword[const3]
