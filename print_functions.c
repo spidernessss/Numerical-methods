@@ -130,8 +130,11 @@ void print_instructions_info(void)
         printf("----------------");
     }
     printf("\n");
-    printf("-help   Prints this text\n");
-    printf("-r      Calculates roots for 3 given functions and prints the results\n");
-    printf("-i      Calculates the integral and prints the result\n");
-    printf("-ri     Calculates integral and prints roots needed to calculate it and the integral\n");
+    printf("-help               Prints this text\n");
+    printf("-roots              Calculates roots for 3 given functions and prints the results\n");
+    printf("-square             Calculates the square and prints the result\n");
+    printf("-rs                 Calculates square and prints roots needed to calculate it and the integral\n");
+    printf("-iters              Calculates number of iterations and prints it\n");
+    printf("-test-root          Gets index_func1, index_func2, a, b params and calculates corresponding root\n");
+    printf("-test-integral      Gets index_func1, a, b params and calculates corresponding integral\n");
 }
