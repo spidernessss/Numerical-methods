@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     fclose(file);
 
     // main arguments interpretation
-    char* command_flags[] = {"-help", "-roots", "-square", "-ri", "-iters", "-test-root", "-test-integral"};
+    char* command_flags[] = {"-help", "-roots", "-square", "-rs", "-iters", "-test-root", "-test-integral"};
     int command_number = 1;
     int flag_index = 0;
     if (argc == 1)
