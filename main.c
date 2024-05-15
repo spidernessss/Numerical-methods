@@ -6,7 +6,6 @@
 #include "print_functions.h"
 #include "input_functions.h"
 #include "calculation_functions.h"
-#include "test_functions.h"
 #include "ascii_art_func.h"
 int main(int argc, char* argv[])
 {
