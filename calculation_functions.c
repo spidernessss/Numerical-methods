@@ -4,7 +4,7 @@
 //!!!!!!!!!!!!!!!!!!!!!!!!!
 //need stdlib.h for abs
 // in my task: root - chord method
-double root(double(*f)(double), double(*g)(double), double a, double b, double eps1)
+double root(double(*f)(double), double(*g)(double), double a, double b, double eps1, int* iterations)
 {
     // will be seeking root for a function F = f - g
     // this root will be the coordinate of functions f and g collision
@@ -18,7 +18,6 @@ double root(double(*f)(double), double(*g)(double), double a, double b, double e
     
     int function_type = convexity * is_delta_positive;
     
-    int iterations = 0;
     double x0;
     double x_mov;
     double root;
@@ -31,7 +30,7 @@ double root(double(*f)(double), double(*g)(double), double a, double b, double e
             do
             {
                 x_mov = x_mov - ((f(x_mov) - g(x_mov)) * (x0 - x_mov) ) / ( (f(x0) - g(x0)) - (f(x_mov) - g(x_mov)));
-                iterations++;
+                (*iterations)++;
             } while((f(x_mov) - g(x_mov)) * (f(x_mov - eps1) - g(x_mov - eps1)) >= eps1);
             root = x_mov;
             break;
@@ -42,14 +41,13 @@ double root(double(*f)(double), double(*g)(double), double a, double b, double e
             do
             {
                 x_mov = x0 - ( (f(x0) - g(x0)) * (x_mov - x0) / ((f(x_mov) - g(x_mov)) - (f(x0) - g(x0))) );
-                iterations++;
-            } while((f(x_mov) - g(x_mov)) * (f(x_mov + eps1) - g(x_mov + eps1)) >= eps1 && iterations <= 10 );
+                (*iterations)++;
+            } while((f(x_mov) - g(x_mov)) * (f(x_mov + eps1) - g(x_mov + eps1)) >= eps1 && (*iterations) <= 10 );
             root = x_mov;
             break;
         default:
-            fprintf(stderr, "Error in delta calculation. The values of is_delta_positive: %d\n", is_delta_positive);
+            fprintf(stderr, "Error in calculation. The values of convexity: %d\n", convexity);
     }
-    printf("Number of iterations in root calculations is %d\n", iterations);
     return root;   
 }
 // Rectangular method
@@ -61,9 +59,14 @@ double integral(double(*f)(double), double a, double b, double eps2)
     double step = cbrt(eps2) / (24.0 * 5);
     double rectangles = (b - a) / step;
     double area = 0;
+    double f_prev = f(a);
     for (int i = 0; i < rectangles - 1; i++)
     {
-        area += ((f(a + i*step) + f(a + (i+1)*step)) / 2) * step;
+        double f_next = f(a + (i+1)*step);
+        area += ((f_prev + f_next) / 2) * step;
+        f_prev = f_next;
     }
     return area;
 }
+
+
