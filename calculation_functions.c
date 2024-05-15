@@ -42,7 +42,7 @@ double root(double(*f)(double), double(*g)(double), double a, double b, double e
             {
                 x_mov = x0 - ( (f(x0) - g(x0)) * (x_mov - x0) / ((f(x_mov) - g(x_mov)) - (f(x0) - g(x0))) );
                 (*iterations)++;
-            } while((f(x_mov) - g(x_mov)) * (f(x_mov + eps1) - g(x_mov + eps1)) >= eps1 && (*iterations) <= 10 );
+            } while((f(x_mov) - g(x_mov)) * (f(x_mov + eps1) - g(x_mov + eps1)) >= eps1);
             root = x_mov;
             break;
         default:
